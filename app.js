@@ -540,11 +540,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const userSelect = document.getElementById('global-user-select');
   const companies = LocalDB.getCompanies();
   
-  userSelect.innerHTML = companies.map(comp => 
-    `<option value="${comp.id}" ${comp.id === AppState.currentCompanyId ? 'selected' : ''}>
-      ${comp.name} (${comp.role})
-    </option>`
-  ).join('');
+  const populateUserSwitcher = () => {
+    if (!userSelect) return;
+    const isMobile = window.innerWidth <= 600;
+    userSelect.innerHTML = companies.map(comp => {
+      let displayName = comp.name;
+      if (isMobile && displayName.length > 22) {
+        displayName = displayName.substring(0, 20) + '...';
+      }
+      return `<option value="${comp.id}" ${comp.id === AppState.currentCompanyId ? 'selected' : ''}>
+        ${displayName} (${comp.role})
+      </option>`;
+    }).join('');
+  };
+
+  populateUserSwitcher();
+  window.addEventListener('resize', populateUserSwitcher);
 
   // Dropdown event listener
   userSelect.addEventListener('change', (e) => {
