@@ -1215,6 +1215,143 @@ textarea.form-control {
   .orders-table td select {
     font-size: 0.8rem;
   }
+
+  /* Cabinet layout horizontal conversion */
+  .cabinet-sidebar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+  }
+  
+  .cabinet-user-summary {
+    padding: 0;
+    border-bottom: none;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .cabinet-menu-list {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .cabinet-menu-item-btn {
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    border-left: none;
+    border-bottom: 3px solid transparent;
+  }
+  
+  .cabinet-menu-item-btn.active {
+    border-bottom-color: var(--accent-blue);
+    border-left-color: transparent;
+    background-color: var(--accent-blue-light);
+  }
+}
+
+@media (max-width: 600px) {
+  /* Prevent select box from breaking viewport */
+  .user-select {
+    max-width: 160px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  /* Convert orders table into responsive cards */
+  .orders-table thead {
+    display: none;
+  }
+  
+  .orders-table, 
+  .orders-table tbody, 
+  .orders-table tr, 
+  .orders-table td {
+    display: block;
+    width: 100%;
+  }
+  
+  .orders-table tr {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin-bottom: 1.25rem;
+    padding: 1rem;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .orders-table tr:hover {
+    background-color: var(--bg-secondary);
+  }
+
+  .orders-table td {
+    padding: 0.65rem 0;
+    border-bottom: 1px dashed var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+  }
+  
+  .orders-table td:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  /* Add data labels to cells */
+  .orders-table td:nth-child(1)::before {
+    content: "ID заказа";
+    font-weight: 700;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-align: left;
+  }
+  
+  .orders-table td:nth-child(2)::before {
+    content: "Оборудование";
+    font-weight: 700;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-align: left;
+  }
+  
+  .orders-table td:nth-child(3)::before {
+    content: "Контрагент";
+    font-weight: 700;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-align: left;
+  }
+  
+  .orders-table td:nth-child(4)::before {
+    content: "Детали ТЗ";
+    font-weight: 700;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-align: left;
+  }
+  
+  .orders-table td:nth-child(5)::before {
+    content: "Статус";
+    font-weight: 700;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-align: left;
+  }
+  
+  .orders-table td:nth-child(6)::before {
+    content: "Информация";
+    font-weight: 700;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-align: left;
+  }
 }
 
 @media (max-width: 576px) {
@@ -1251,11 +1388,23 @@ textarea.form-control {
     position: static; /* Unstick on mobile to stack naturally */
   }
 
+  .cabinet-sidebar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1.25rem 1rem;
+  }
+
   .cabinet-user-summary {
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .cabinet-menu-list {
+    justify-content: center;
+    width: 100%;
   }
 }
 
