@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ПромШеринг — Агрегатор производственных мощностей</title>
+  <meta name="description" content="Удобный B2B-агрегатор для совместного использования свободных производственных мощностей и промышленного оборудования.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- App Header & Navigation -->
+  <header>
+    <div class="header-container">
+      <a href="#" class="logo" onclick="navigateTo('catalog-page'); return false;" id="brand-logo">
+        <div class="logo-icon-container">
+          <span class="logo-dot"></span>
+          <span class="logo-dot"></span>
+          <span class="logo-dot"></span>
+          <span class="logo-dot"></span>
+        </div>
+        <span class="logo-text">Пром<span>Шеринг</span></span>
+      </a>
+
+      <!-- Page Navigation -->
+      <nav class="nav-links">
+        <button class="nav-btn active" data-view="catalog-page" id="nav-btn-catalog">
+          Каталог мощностей
+        </button>
+        <button class="nav-btn" data-view="cabinet-page" id="nav-btn-cabinet">
+          Личный кабинет
+        </button>
+      </nav>
+
+      <!-- Global User Switching Panel (Persona Switcher) -->
+      <div class="user-switcher">
+        <label for="global-user-select">Кто вы:</label>
+        <select id="global-user-select" class="user-select">
+          <!-- Populated dynamically via JS -->
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Views Container -->
+  <main>
+    
+    <!-- 1. Catalog Page Section -->
+    <section id="catalog-page" class="page-section active">
+      <!-- Search Box (Avito Style) -->
+      <div class="search-container-box">
+        <div class="search-flex-row">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" id="catalog-search" class="search-input" placeholder="Поиск оборудования по названию или категории...">
+          </div>
+          <button class="btn-search" id="btn-search-submit">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            Найти
+          </button>
+        </div>
+      </div>
+
+      <!-- Category Filter Chips (Avito-Style Categories) -->
+      <div class="category-chips-wrapper" id="category-filters-container">
+        <!-- Loaded dynamically via JS: "Все", "ЧПУ фрезерная", "Лазерная резка", etc. -->
+      </div>
+
+      <h2 class="catalog-title-banner" id="catalog-header-text">Рекомендуемые мощности</h2>
+
+      <!-- Equipment slots cards display grid -->
+      <div id="equipment-grid" class="equipment-grid">
+        <!-- Cards loaded dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- 2. Order Form Page Section (Product Detail View) -->
+    <section id="order-page" class="page-section">
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <span class="breadcrumb-link" onclick="navigateTo('catalog-page')">Каталог</span>
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: var(--text-muted);">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+        </svg>
+        <span class="breadcrumb-link" id="breadcrumb-category">-</span>
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: var(--text-muted);">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+        </svg>
+        <span id="breadcrumb-model">-</span>
+      </div>
+
+      <div class="product-layout">
+        <!-- Left Main Column: Specs & Booking form -->
+        <div class="product-main-column">
+          <h1 class="product-title" id="order-info-model">-</h1>
+          
+          <!-- Modern Specifications Grid -->
+          <div class="specs-grid">
+            <div class="spec-card">
+              <div class="spec-icon-box">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+              </div>
+              <div class="spec-details">
+                <span class="spec-label">Категория</span>
+                <span class="spec-value" id="order-info-category">-</span>
+              </div>
+            </div>
+
+            <div class="spec-card">
+              <div class="spec-icon-box">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: var(--accent-primary);">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div class="spec-details">
+                <span class="spec-label">Состояние</span>
+                <span class="spec-value" style="color: var(--accent-primary);">Готов к работе</span>
+              </div>
+            </div>
+
+            <div class="spec-card">
+              <div class="spec-icon-box">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                </svg>
+              </div>
+              <div class="spec-details">
+                <span class="spec-label">Город</span>
+                <span class="spec-value" id="order-info-location-top">-</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-description-block">
+            <h2 class="product-section-title">Описание оборудования</h2>
+            <p class="product-description-text">
+              Профессиональное промышленное оборудование высокой точности. Прекрасно подходит для серийного производства деталей или выполнения сложных единичных технологических заказов по чертежам. Полностью укомплектовано оснасткой, обслуживается квалифицированным оператором.
+            </p>
+          </div>
+
+          <!-- Technical specifications input form -->
+          <div class="booking-form-box">
+            <h2 class="product-section-title">Запрос на бронирование мощности</h2>
+            <form id="order-creation-form">
+              <div class="form-group">
+                <label>Отправитель запроса (Заказчик)</label>
+                <div id="form-client-name" style="font-weight: 700; font-size: 1rem; color: var(--accent-primary); padding: 0.25rem 0;">-</div>
+              </div>
+
+              <div class="form-group">
+                <label for="form-tz">Детали технического задания (ТЗ)</label>
+                <textarea id="form-tz" class="form-control" placeholder="Опишите требования к обработке, материал изделий, размеры, количество деталей в партии и желаемые сроки..." required></textarea>
+              </div>
+
+              <div class="form-actions" style="display: none;">
+                <!-- Handled via sidebar button trigger in JS -->
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right Column: Sticky Seller Widget & Primary Action button -->
+        <div class="seller-sticky-card">
+          <div class="seller-price-box">
+            <div class="seller-price" id="order-info-price">-</div>
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.15rem;">за час использования</div>
+          </div>
+
+          <div class="seller-profile-box">
+            <div class="seller-name" id="order-info-provider">-</div>
+            <div class="seller-rating-row">
+              <span class="seller-rating-stars">★★★★★</span>
+              <span>5.0</span>
+              <span class="seller-rating-count">(12 отзывов)</span>
+            </div>
+            
+            <div class="seller-location-info">
+              <div style="display: flex; align-items: center; gap: 0.35rem; font-weight: 600; color: var(--text-primary);">
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                </svg>
+                <span id="order-info-location">-</span>
+              </div>
+              <div style="font-size: 0.8rem; color: var(--text-muted); padding-left: 1.25rem;">Производственная площадка</div>
+            </div>
+          </div>
+
+          <button type="button" class="btn-sidebar-submit" id="btn-sidebar-submit-action">Отправить заказ</button>
+          <button type="button" class="btn-sidebar-cancel" id="btn-cancel-order">Вернуться в каталог</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Cabinet Page Section (Avito Profile View) -->
+    <section id="cabinet-page" class="page-section">
+      <div class="cabinet-layout">
+        <!-- Left Sidebar Navigation -->
+        <aside class="cabinet-sidebar">
+          <div class="cabinet-user-summary">
+            <div class="cabinet-user-title" id="cabinet-company-name">-</div>
+            <div class="cabinet-user-role" id="cabinet-role-badge">-</div>
+          </div>
+          <ul class="cabinet-menu-list">
+            <li>
+              <button class="cabinet-menu-item-btn active" id="cabinet-menu-orders-btn">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="margin-right: 0.25rem;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                Мои заказы
+              </button>
+            </li>
+            <li>
+              <button class="cabinet-menu-item-btn" onclick="showToast('В MVP версии доступен только раздел заказов');">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="margin-right: 0.25rem;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                Настройки профиля
+              </button>
+            </li>
+          </ul>
+        </aside>
+
+        <!-- Right Main Panel -->
+        <div class="cabinet-main-content">
+          <h2 class="cabinet-content-title" id="cabinet-type-title">-</h2>
+          <p class="cabinet-content-subtitle" id="cabinet-type-subtitle">-</p>
+
+          <div id="cabinet-content">
+            <div class="table-container">
+              <table class="orders-table" id="orders-table-element">
+                <thead>
+                  <tr>
+                    <!-- Loaded dynamically depending on role -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Loaded dynamically via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Guidelines container -->
+            <div class="guide-panel">
+              <h3>
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                </svg>
+                Инструкция по работе с MVP
+              </h3>
+              <p style="margin-top: 0.25rem; line-height: 1.5;">
+                Вы можете переключать компании в выпадающем меню «Кто вы» в правом верхнем углу шапки. 
+                При выборе компании с ролью <strong>Исполнитель</strong> в личном кабинете отобразятся входящие заказы с возможностью смены статуса. 
+                При переключении на роль <strong>Заказчик</strong> вы сможете просматривать статус отправленных вами заказов.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Container for toast notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
